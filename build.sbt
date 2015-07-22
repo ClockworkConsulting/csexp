@@ -23,6 +23,12 @@ scalacOptions in ThisBuild ++= Seq(
 )
 
 //
+// sbt-pgp settings
+//
+
+useGpg := true
+
+//
 // Test settings
 //
 

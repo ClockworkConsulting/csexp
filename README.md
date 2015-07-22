@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ClockworkConsulting/csexp.svg?branch=master)](https://travis-ci.org/ClockworkConsulting/csexp)
+
 # Intro
 
 This library is a simple Scala implementation of [Canonical S-expressions](https://en.wikipedia.org/wiki/Canonical_S-expressions).

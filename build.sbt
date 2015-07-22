@@ -14,7 +14,7 @@ version in ThisBuild := "1.1.2-SNAPSHOT"
 
 crossScalaVersions := Seq("2.10.4")
 
-scalaVersion in ThisBuild := "2.11.5"
+scalaVersion in ThisBuild := "2.11.7"
 
 scalacOptions in ThisBuild ++= Seq(
   "-Xlint",

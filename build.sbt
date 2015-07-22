@@ -6,7 +6,7 @@ organization := "dk.cwconsult"
 
 name := "csexp"
 
-version in ThisBuild := "1.1.2-SNAPSHOT"
+version in ThisBuild := "1.1.2"
 
 //
 // Compiler settings

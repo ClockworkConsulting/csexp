@@ -12,8 +12,6 @@ version in ThisBuild := "1.1.2-SNAPSHOT"
 // Compiler settings
 //
 
-crossScalaVersions := Seq("2.10.4")
-
 scalaVersion in ThisBuild := "2.11.7"
 
 scalacOptions in ThisBuild ++= Seq(

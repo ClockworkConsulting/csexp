@@ -3,9 +3,9 @@ import sbt._
 object Dependencies {
 
   val scalaTest =
-    "org.scalatest" %% "scalatest" % "2.2.4"
+    "org.scalatest" %% "scalatest" % "3.0.1"
 
   val scalaCheck =
-    "org.scalacheck" %% "scalacheck" % "1.12.2"
+    "org.scalacheck" %% "scalacheck" % "1.13.4"
 
 }

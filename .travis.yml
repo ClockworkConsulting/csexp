@@ -10,4 +10,4 @@ cache:
     - $HOME/.sbt
 before_script:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/4527
-  - curl --create-dirs -L -o $HOME/.sbt/launchers/0.13.8/sbt-launch.jar http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.8/sbt-launch.jar
+  - curl --create-dirs -L -o $HOME/.sbt/launchers/0.13.13/sbt-launch.jar http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.13/sbt-launch.jar

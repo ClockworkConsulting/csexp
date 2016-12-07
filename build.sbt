@@ -32,12 +32,10 @@ useGpg := true
 // Test settings
 //
 
-testOptions in ThisBuild in Test <+= (target in Test) map {
-  t => Tests.Argument(
-    TestFrameworks.ScalaTest,
-    "-oD", // Console output
-    "-u", "%s" format (t / "test-reports")) // Output for Jenkins
-}
+testOptions in ThisBuild in Test +=  Tests.Argument(
+  TestFrameworks.ScalaTest,
+  "-oD", // Console output
+  "-u", "%s" format ((target in Test).value / "test-reports")) // Output for Jenkins
 
 //
 // Dependencies

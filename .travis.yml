@@ -1,7 +1,7 @@
 language: scala
 sbt_args: -J-Dproject.version=travis-SNAPSHOT
 scala:
-  - 2.11.7
+  - 2.11.8
 jdk:
   - openjdk7
 cache:

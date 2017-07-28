@@ -12,9 +12,9 @@ version in ThisBuild := "1.2.1-SNAPSHOT"
 // Compiler settings
 //
 
-scalaVersion in ThisBuild := "2.12.1"
+scalaVersion in ThisBuild := "2.12.2"
 
-crossScalaVersions := Seq("2.11.8")
+crossScalaVersions := Seq("2.11.11", "2.10.6")
 
 scalacOptions in ThisBuild ++= Seq(
   "-Xlint",

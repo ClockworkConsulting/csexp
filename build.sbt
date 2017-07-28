@@ -12,7 +12,7 @@ version in ThisBuild := "1.2.1-SNAPSHOT"
 // Compiler settings
 //
 
-scalaVersion in ThisBuild := "2.12.2"
+scalaVersion in ThisBuild := "2.12.3"
 
 crossScalaVersions := Seq("2.11.11", "2.10.6")
 

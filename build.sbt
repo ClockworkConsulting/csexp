@@ -29,6 +29,16 @@ scalacOptions in ThisBuild ++= Seq(
 useGpg := true
 
 //
+// SonaType OSS publishing settings
+//
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
+
+//
 // Test settings
 //
 

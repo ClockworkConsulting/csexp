@@ -95,7 +95,7 @@ object SExprTokenizer {
    * Atom.
    */
   case class TAtom(bytes: Array[Byte]) extends SToken {
-    override def equals(_other: Any) =
+    override def equals(_other: Any): Boolean =
       _other.isInstanceOf[TAtom] && (_other.asInstanceOf[TAtom].bytes.deep == bytes.deep)
   }
 

@@ -17,7 +17,7 @@ case class SList(elements: SExpr*) extends SExpr
  */
 case class SAtom(bytes: Array[Byte]) extends SExpr {
 
-  override def equals(other: Any) = {
+  override def equals(other: Any): Boolean = {
     other.isInstanceOf[SAtom] && util.Arrays.equals(bytes, other.asInstanceOf[SAtom].bytes)
   }
 

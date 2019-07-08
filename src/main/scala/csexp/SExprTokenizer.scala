@@ -1,19 +1,9 @@
 package csexp
 
-import java.nio.charset.Charset
-import java.io.{OutputStream, ByteArrayInputStream, ByteArrayOutputStream, InputStream, EOFException}
+import java.io.EOFException
+import java.io.InputStream
 
-import csexp.AST._
 import scala.collection.mutable.ArrayBuffer
-
-/**
- * Input for parsing was malformed. The position is the byte
- * position of the error.
- */
-class MalformedInputException(
-    position: Int,
-    message: String)
-  extends RuntimeException(s"$message: at position $position")
 
 /**
  * Tokenizer for canonical s-expressions.
@@ -181,147 +171,6 @@ object SExprTokenizer {
     }
     // Return the list of tokens.
     tokens.toVector
-  }
-
-}
-
-/**
- * Writers for canonical s-expressions.
- */
-object SExprWriters {
-
-  import SExprTokenizer._ // Token type defs
-
-  // US-ASCII character set. This must be defined for ANY JVM implementation
-  // (per standard) and so cannot throw.
-  private[this] val US_ASCII = Charset.forName("US-ASCII")
-
-  // Shorthand to avoid syntactic clutter.
-  private[this] val LPAREN = "(".getBytes(US_ASCII)
-  private[this] val RPAREN = ")".getBytes(US_ASCII)
-
-  /**
-   * Token writer.
-   */
-  class TokenWriter(outputStream: OutputStream) {
-
-    /**
-     * Write a token to the output stream.
-     */
-    def write(token: SToken): Unit = {
-      token match {
-        case TAtom(bytes) =>
-          outputStream.write(s"${bytes.length}:".getBytes(US_ASCII))
-          outputStream.write(bytes)
-        case TLeftParenthesis =>
-          outputStream.write(LPAREN)
-        case TRightParenthesis =>
-          outputStream.write(RPAREN)
-      }
-    }
-
-  }
-
-  /**
-   * Write a canonical S-expression to a stream.
-   */
-  def writeToOutputStream(expr: SExpr, outputStream: OutputStream): Unit = {
-
-    val tokenWriter = new TokenWriter(outputStream)
-
-    def writeExpr(expr: SExpr): Unit = {
-      expr match {
-        case SAtom(bytes) =>
-          tokenWriter.write(TAtom(bytes))
-        case SList(elements @ _*) =>
-          tokenWriter.write(TLeftParenthesis)
-          for (element <- elements) {
-            writeToOutputStream(element, outputStream)
-          }
-          tokenWriter.write(TRightParenthesis)
-      }
-    }
-
-    writeExpr(expr)
-  }
-
-  /**
-   * Write a canonical S-expression to a byte array. This function
-   * is provided as a convenience; if you're writing to an output
-   * stream, the function for writing directly to an output stream
-   * should be used instead.
-   */
-  def writeToByteArray(sexpr: SExpr): Array[Byte] = {
-    val outputStream = new ByteArrayOutputStream(2048)
-    writeToOutputStream(sexpr, outputStream)
-    outputStream.close()
-    outputStream.toByteArray
-  }
-
-}
-
-/**
- * Parsers for canonical s-expressions.
- */
-object SExprParsers {
-
-  import SExprTokenizer._
-
-  /**
-   * Parse a canonical S-expression from a stream of tokens.
-   */
-  def parseFromStream(_stream: Vector[(Int, SToken)]): SExpr = {
-    // Reference to our position in the stream.
-    var stream = _stream
-
-    // Throw an error with position information.
-    def error(position: Int, message: String): Exception =
-      throw new MalformedInputException(position, message)
-
-    // Parse a list.
-    def list(): Seq[SExpr] = {
-      var elements = Vector[SExpr]()
-      // Keep consuming elements until we see the RPAREN.
-      while (stream.head._2 != TRightParenthesis) {
-        elements = elements :+ atomOrList()
-      }
-      // Consume the terminating RPAREN
-      stream = stream.tail
-      // Return the elements
-      elements
-    }
-
-    def atomOrList(): SExpr = {
-      // Grab the next token
-      val token = stream.headOption
-      stream = stream.tail
-      // Expecting either an atom or a list.
-      token match {
-        case Some((_, TAtom(bytes))) => SAtom(bytes)
-        case Some((_, TLeftParenthesis)) => SList(list() :_ *)
-        case Some((pos, token)) => throw error(pos, s"Unexpected token $token")
-        case None => throw error(-1, "Unexpected EOF")
-      }
-    }
-
-    // Initial non-terminal
-    atomOrList()
-  }
-
-  /**
-   * Parse a canonical S-expression from a stream.
-   */
-  def parseFromInputStream(inputStream: InputStream): SExpr =
-    parseFromStream(tokenize(inputStream))
-
-  /**
-   * Parse a canonical s-expression from a byte array.
-   */
-  def parseFromByteArray(bytes: Array[Byte]): SExpr = {
-    val inputStream = new ByteArrayInputStream(bytes)
-    val sexpr = parseFromInputStream(inputStream)
-    inputStream.close()
-    sexpr
   }
 
 }

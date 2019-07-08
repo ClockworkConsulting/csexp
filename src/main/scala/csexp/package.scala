@@ -4,7 +4,7 @@ import java.nio.charset.Charset
 import java.io.{OutputStream, ByteArrayInputStream, ByteArrayOutputStream, InputStream, EOFException}
 
 import csexp.AST._
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * Input for parsing was malformed. The position is the byte
@@ -121,7 +121,7 @@ object SExprTokenizer {
   def tokenize(_inputStream: InputStream): Vector[(Int, SToken)] = {
     // Current list of tokens. This is a bit silly and we should really
     // produce tokens as we go, but it'll do for now.
-    val tokens = ListBuffer[(Int, SToken)]()
+    val tokens = ArrayBuffer[(Int, SToken)]()
 
     // Input
     val input = new PositionedInputStream(_inputStream)

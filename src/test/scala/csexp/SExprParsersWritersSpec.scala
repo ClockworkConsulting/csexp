@@ -5,6 +5,7 @@ import org.scalatest.prop.Checkers
 import org.scalacheck._, Prop._, Arbitrary._, Gen._
 
 import csexp.AST._
+import csexp.AST.SExpr._
 
 /**
  * Specifications for the canonical s-expression writing and parsing code.

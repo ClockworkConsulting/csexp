@@ -4,9 +4,8 @@ import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.nio.charset.Charset
 
-import csexp.AST.SAtom
+import csexp.AST.SExpr._
 import csexp.AST.SExpr
-import csexp.AST.SList
 
 /**
  * Writers for canonical s-expressions.

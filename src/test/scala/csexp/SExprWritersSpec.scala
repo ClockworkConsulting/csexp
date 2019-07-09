@@ -3,7 +3,7 @@ package csexp
 import org.scalatest.FlatSpec
 import java.nio.charset.Charset
 
-import csexp.AST._
+import csexp.AST.SExpr._
 
 class SExprWritersSpec extends FlatSpec {
 

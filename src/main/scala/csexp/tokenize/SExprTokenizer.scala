@@ -1,7 +1,9 @@
-package csexp
+package csexp.tokenize
 
-import java.io.EOFException
 import java.io.InputStream
+
+import csexp.MalformedInputException
+import csexp.tokenize.SToken._
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -9,56 +11,6 @@ import scala.collection.mutable.ArrayBuffer
  * Tokenizer for canonical s-expressions.
  */
 object SExprTokenizer {
-
-  /**
-   * Positioned input-stream with push-back capability.
-   */
-  private[this] class PositionedInputStream(private val underlying: InputStream) {
-
-    /**
-     * Current position.
-     */
-    def position: Int = _position
-
-    /**
-     * Current position.
-     */
-    private[this] var _position: Int = 0
-
-    /**
-     * Read the next byte. Returns None if EOF has been reached.
-     */
-    def nextByte(): Option[Char] = {
-      val ch = underlying.read()
-      if (ch == -1) {
-        None
-      } else {
-        _position += 1
-        Some(ch.toChar)
-      }
-    }
-
-    /**
-     * Read a number of bytes into a buffer, throwing an EOFException
-     * if the buffer cannot be filled before EOF is reached.
-     */
-    def nextBytes(n: Int): Array[Byte] = {
-      val buf = new Array[Byte](n)
-      var count = 0
-      while (count < n) {
-        // Read a bit more
-        val readCount = underlying.read(buf, count, n - count)
-        if (readCount < 0) {
-          throw new EOFException()
-        }
-        // Move along
-        count += readCount
-        _position += readCount
-      }
-      buf
-    }
-
-  }
 
   // Digit matcher for syntactic convenience.
   private[this] object Digit {
@@ -75,29 +27,6 @@ object SExprTokenizer {
   private[this] val LPAREN = '('
   private[this] val RPAREN = ')'
   private[this] val COLON = ':'
-
-  /**
-   * Tokens
-   */
-  sealed trait SToken
-
-  /**
-   * Left parenthesis.
-   */
-  case object TLeftParenthesis extends SToken
-
-  /**
-   * Right parenthesis.
-   */
-  case object TRightParenthesis extends SToken
-
-  /**
-   * Atom.
-   */
-  case class TAtom(bytes: Array[Byte]) extends SToken {
-    override def equals(_other: Any): Boolean =
-      _other.isInstanceOf[TAtom] && (_other.asInstanceOf[TAtom].bytes.deep == bytes.deep)
-  }
 
   // State of the tokenizer.
   private[this] sealed trait TokenizerState

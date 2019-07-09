@@ -2,10 +2,11 @@ package csexp
 
 import java.io.ByteArrayInputStream
 import java.nio.charset.Charset
-import org.scalatest.FlatSpec
 
+import org.scalatest.FlatSpec
 import csexp.ast.SExpr._
-import csexp.SExprTokenizer._
+import csexp.tokenize.SExprTokenizer
+import csexp.tokenize.SToken._
 
 class SExprParsersSpec extends FlatSpec {
 
@@ -50,7 +51,7 @@ class SExprParsersSpec extends FlatSpec {
       47 -> TRightParenthesis)
 
     // Exercise
-    val tokenStream = tokenize(new ByteArrayInputStream(wikipediaExampleBytes))
+    val tokenStream = SExprTokenizer.tokenize(new ByteArrayInputStream(wikipediaExampleBytes))
 
     // Verify
     assert(tokenStream === expectedTokens.toStream)

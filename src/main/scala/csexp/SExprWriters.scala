@@ -2,7 +2,7 @@ package csexp
 
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 
 import csexp.ast.SExpr._
 import csexp.ast.SExpr
@@ -14,9 +14,7 @@ import csexp.tokenize.SToken._
  */
 object SExprWriters {
 
-  // US-ASCII character set. This must be defined for ANY JVM implementation
-  // (per standard) and so cannot throw.
-  private[this] val US_ASCII = Charset.forName("US-ASCII")
+  private[this] val US_ASCII = StandardCharsets.US_ASCII
 
   // Shorthand to avoid syntactic clutter.
   private[this] val LPAREN = "(".getBytes(US_ASCII)

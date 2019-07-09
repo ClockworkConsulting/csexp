@@ -5,13 +5,15 @@ import java.io.InputStream
 
 import csexp.ast.SExpr
 import csexp.ast.SExpr._
+import csexp.tokenize.SToken
+import csexp.tokenize.SToken._
 
 /**
  * Parsers for canonical s-expressions.
  */
 object SExprParsers {
 
-  import SExprTokenizer._
+  import csexp.tokenize.SExprTokenizer._
 
   /**
    * Parse a canonical S-expression from a stream of tokens.

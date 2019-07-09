@@ -6,13 +6,13 @@ import java.nio.charset.Charset
 
 import csexp.ast.SExpr._
 import csexp.ast.SExpr
+import csexp.tokenize.SToken
+import csexp.tokenize.SToken._
 
 /**
  * Writers for canonical s-expressions.
  */
 object SExprWriters {
-
-  import SExprTokenizer._ // Token type defs
 
   // US-ASCII character set. This must be defined for ANY JVM implementation
   // (per standard) and so cannot throw.

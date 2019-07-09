@@ -3,8 +3,8 @@ package csexp
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 
-import csexp.AST.SExpr
-import csexp.AST.SExpr._
+import csexp.ast.SExpr
+import csexp.ast.SExpr._
 
 /**
  * Parsers for canonical s-expressions.

@@ -46,6 +46,32 @@ sealed abstract class StatefulTokenizer private(var stream: Vector[(Int, SToken)
     }
   }
 
+  private[this] def skipBalanced(): Unit = {
+    var done = false
+    while (!done) {
+      nextToken() match {
+        case (_, TLeftParenthesis) =>
+          skipBalanced()
+        case (_, TRightParenthesis) =>
+          done = true
+        case (_, TAtom(_)) =>
+          // ignore
+      }
+    }
+  }
+
+  def skip1(): Unit = {
+    nextToken() match {
+      case (_, TAtom(_)) =>
+        // Skip this single expression.
+      case (pos, TRightParenthesis) =>
+        // Immediate close-paren means that there was no expression to skip.
+        throw error(pos, s"There was nothing to skip")
+      case (pos, TLeftParenthesis) =>
+        skipBalanced()
+    }
+  }
+
 }
 
 object StatefulTokenizer {

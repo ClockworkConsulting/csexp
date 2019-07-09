@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream
 import java.nio.charset.Charset
 import org.scalatest.FlatSpec
 
-import csexp.AST.SExpr._
+import csexp.ast.SExpr._
 import csexp.SExprTokenizer._
 
 class SExprParsersSpec extends FlatSpec {

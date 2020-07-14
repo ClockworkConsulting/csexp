@@ -22,7 +22,7 @@ object SToken {
    */
   case class TAtom(bytes: Array[Byte]) extends SToken {
     override def equals(_other: Any): Boolean =
-      _other.isInstanceOf[TAtom] && (_other.asInstanceOf[TAtom].bytes.deep == bytes.deep)
+      _other.isInstanceOf[TAtom] && (_other.asInstanceOf[TAtom].bytes.sameElements(bytes))
   }
 
 }

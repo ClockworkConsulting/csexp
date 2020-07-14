@@ -17,7 +17,7 @@ val scala_2_13 = "2.13.3"
 
 scalaVersion in ThisBuild := scala_2_13
 
-crossScalaVersions := Seq(scala_2_10, scala_2_12, scala_2_12, scala_2_13)
+crossScalaVersions := Seq(scala_2_10, scala_2_11, scala_2_12, scala_2_13)
 
 scalacOptions in ThisBuild ++= Seq(
   "-Xlint",

@@ -54,7 +54,7 @@ class SExprParsersSpec extends AnyFlatSpec {
     val tokenStream = SExprTokenizer.tokenize(new ByteArrayInputStream(wikipediaExampleBytes))
 
     // Verify
-    assert(tokenStream === expectedTokens.toStream)
+    assert(tokenStream === expectedTokens)
   }
 
 }

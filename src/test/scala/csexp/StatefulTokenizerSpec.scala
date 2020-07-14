@@ -26,7 +26,7 @@ class StatefulTokenizerSpec extends AnyFlatSpec {
   private[this] def tatom(s: String): TAtom =
     TAtom(s.getBytes(StandardCharsets.UTF_8))
 
-  private[this] def tokensToString(tokens: Seq[SToken]): String = {
+  private[this] def tokensToString(tokens: collection.Seq[SToken]): String = {
     // For readability if tests fail, we assume that atoms don't
     // contain delimiters.
     tokens.map {

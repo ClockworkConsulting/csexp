@@ -52,6 +52,7 @@ testOptions in ThisBuild in Test +=  Tests.Argument(
 //
 
 libraryDependencies ++= Seq(
+  Dependencies.scalaCheck % "test",
   Dependencies.scalaTest % "test",
-  Dependencies.scalaCheck % "test"
+  Dependencies.scalaTestPlusScalaCheck % "test",
 )

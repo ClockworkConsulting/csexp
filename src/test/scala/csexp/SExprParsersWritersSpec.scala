@@ -1,16 +1,20 @@
 package csexp
 
-import org.scalatest.FlatSpec
-import org.scalatest.prop.Checkers
-import org.scalacheck._, Prop._, Arbitrary._, Gen._
-
+import org.scalacheck.Prop._
+import org.scalacheck.Arbitrary._
+import org.scalacheck.Gen._
 import csexp.ast._
 import csexp.ast.SExpr._
+import org.scalacheck.Arbitrary
+import org.scalacheck.Gen
+import org.scalacheck.Prop
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatestplus.scalacheck.Checkers
 
 /**
  * Specifications for the canonical s-expression writing and parsing code.
  */
-class SExprParsersWritersSpec extends FlatSpec with Checkers {
+class SExprParsersWritersSpec extends AnyFlatSpec with Checkers {
 
   // ---------------------------------------------------------------------
   // Generators for random instances of S-expressions.

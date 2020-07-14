@@ -1,11 +1,11 @@
 package csexp
 
-import org.scalatest.FlatSpec
 import java.nio.charset.Charset
 
 import csexp.ast.SExpr._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class SExprWritersSpec extends FlatSpec {
+class SExprWritersSpec extends AnyFlatSpec {
 
   // Shorthand for convenience
   private[this] val UTF_8 = Charset.forName("UTF-8")

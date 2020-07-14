@@ -11,11 +11,11 @@ import csexp.tokenize.SToken.TAtom
 import csexp.tokenize.SToken.TLeftParenthesis
 import csexp.tokenize.SToken.TRightParenthesis
 import csexp.tokenize.StatefulTokenizer
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.collection.mutable.ArrayBuffer
 
-class StatefulTokenizerSpec extends FlatSpec {
+class StatefulTokenizerSpec extends AnyFlatSpec {
 
   private[this] def satom(s: String): SAtom =
     SAtom(s.getBytes(StandardCharsets.UTF_8))

@@ -3,12 +3,12 @@ package csexp
 import java.io.ByteArrayInputStream
 import java.nio.charset.Charset
 
-import org.scalatest.FlatSpec
 import csexp.ast.SExpr._
 import csexp.tokenize.SExprTokenizer
 import csexp.tokenize.SToken._
+import org.scalatest.flatspec.AnyFlatSpec
 
-class SExprParsersSpec extends FlatSpec {
+class SExprParsersSpec extends AnyFlatSpec {
 
   // Shorthand for convenience
   private[this] val UTF_8 = Charset.forName("UTF-8")

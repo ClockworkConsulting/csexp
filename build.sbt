@@ -10,9 +10,14 @@ name := "csexp"
 // Compiler settings
 //
 
-scalaVersion in ThisBuild := "2.12.3"
+val scala_2_10 = "2.10.6"
+val scala_2_11 = "2.11.11"
+val scala_2_12 = "2.12.11"
+val scala_2_13 = "2.13.3"
 
-crossScalaVersions := Seq("2.11.11", "2.10.6")
+scalaVersion in ThisBuild := scala_2_13
+
+crossScalaVersions := Seq(scala_2_10, scala_2_12, scala_2_12, scala_2_13)
 
 scalacOptions in ThisBuild ++= Seq(
   "-Xlint",

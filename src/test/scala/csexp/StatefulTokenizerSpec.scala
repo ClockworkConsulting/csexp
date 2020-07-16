@@ -12,25 +12,27 @@ import csexp.tokenize.SToken.TLeftParenthesis
 import csexp.tokenize.SToken.TRightParenthesis
 import csexp.tokenize.StatefulTokenizer
 import org.scalatest.flatspec.AnyFlatSpec
+import scodec.bits.ByteVector
+import csexp.impl.CompatSyntax._
 
 import scala.collection.mutable.ArrayBuffer
 
 class StatefulTokenizerSpec extends AnyFlatSpec {
 
   private[this] def satom(s: String): SAtom =
-    SAtom(s.getBytes(StandardCharsets.UTF_8))
+    SAtom(ByteVector(s.getBytes(StandardCharsets.UTF_8)))
 
   private[this] def list(exprs: SExpr*): SList =
     SList(exprs :_ *)
 
   private[this] def tatom(s: String): TAtom =
-    TAtom(s.getBytes(StandardCharsets.UTF_8))
+    TAtom(ByteVector(s.getBytes(StandardCharsets.UTF_8)))
 
   private[this] def tokensToString(tokens: collection.Seq[SToken]): String = {
     // For readability if tests fail, we assume that atoms don't
     // contain delimiters.
     tokens.map {
-      case TAtom(bytes) => new String(bytes, StandardCharsets.UTF_8)
+      case TAtom(bytes) => bytes.decodeUtf8.getOrThrow
       case TLeftParenthesis => "("
       case TRightParenthesis => ")"
     }.mkString(" ")

@@ -4,11 +4,16 @@ import java.nio.charset.Charset
 
 import csexp.ast.SExpr._
 import org.scalatest.flatspec.AnyFlatSpec
+import scodec.bits.ByteVector
+import csexp.impl.CompatSyntax._
 
 class SExprWritersSpec extends AnyFlatSpec {
 
   // Shorthand for convenience
   private[this] val UTF_8 = Charset.forName("UTF-8")
+
+  private[this] def fromUtf8(s: String): ByteVector =
+    ByteVector.encodeUtf8(s).getOrThrow
 
   // ---------------------------------------------------------------------
 
@@ -18,11 +23,11 @@ class SExprWritersSpec extends AnyFlatSpec {
     // Setup
     val sexpr =
       SList(
-        SAtom("this".getBytes(UTF_8)),
-        SAtom("Canonical S-expression".getBytes(UTF_8)),
-        SAtom("has".getBytes(UTF_8)),
-        SAtom("5".getBytes(UTF_8)),
-        SAtom("atoms".getBytes(UTF_8)))
+        SAtom(fromUtf8("this")),
+        SAtom(fromUtf8("Canonical S-expression")),
+        SAtom(fromUtf8("has")),
+        SAtom(fromUtf8("5")),
+        SAtom(fromUtf8("atoms")))
 
     // Exercise
     val serializedSExpr = SExprWriters.writeToByteArray(sexpr)

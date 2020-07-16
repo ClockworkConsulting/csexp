@@ -4,6 +4,7 @@ import java.io.InputStream
 
 import csexp.MalformedInputException
 import csexp.tokenize.SToken._
+import scodec.bits.ByteVector
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -86,7 +87,7 @@ object SExprTokenizer {
             case Some(COLON) =>
               // Read the atom contents
               val bytes = input.nextBytes(lenPrefix.toInt)
-              tokens += (pos+1 -> TAtom(bytes))
+              tokens += (pos+1 -> TAtom(ByteVector.view(bytes)))
               state = TokenizerReady
             case Some(_) =>
               throw error(s"Unexpected character '$ch'")

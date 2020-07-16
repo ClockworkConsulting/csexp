@@ -1,6 +1,6 @@
 package csexp.ast
 
-import java.util
+import scodec.bits.ByteVector
 
 /**
  * AST node for a canonical S-expression.
@@ -17,12 +17,6 @@ object SExpr {
   /**
    * AST node representing an atom.
    */
-  case class SAtom(bytes: Array[Byte]) extends SExpr {
-
-    override def equals(other: Any): Boolean = {
-      other.isInstanceOf[SAtom] && util.Arrays.equals(bytes, other.asInstanceOf[SAtom].bytes)
-    }
-
-  }
+  case class SAtom(bytes: ByteVector) extends SExpr
 
 }

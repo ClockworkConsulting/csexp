@@ -1,7 +1,7 @@
 package csexp.tokenize
 
 import java.io.InputStream
-import java.nio.charset.StandardCharsets
+import csexp.impl.CompatSyntax._
 import csexp.tokenize.SToken._
 
 sealed abstract class StatefulTokenizer private(var stream: Vector[(Int, SToken)]) {
@@ -41,7 +41,7 @@ sealed abstract class StatefulTokenizer private(var stream: Vector[(Int, SToken)
 
   def consumeTag(): (Int, String) = {
     nextToken() match {
-      case (pos, TAtom(tag)) => (pos, new String(tag, StandardCharsets.UTF_8))
+      case (pos, TAtom(tag)) => (pos, tag.decodeUtf8.getOrThrow)
       case (pos, token)      => throw error(pos, s"Expected tag, got $token")
     }
   }

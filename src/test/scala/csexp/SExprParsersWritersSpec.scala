@@ -10,6 +10,7 @@ import org.scalacheck.Gen
 import org.scalacheck.Prop
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatestplus.scalacheck.Checkers
+import scodec.bits.ByteVector
 
 /**
  * Specifications for the canonical s-expression writing and parsing code.
@@ -21,7 +22,7 @@ class SExprParsersWritersSpec extends AnyFlatSpec with Checkers {
 
   lazy val genAtom: Gen[SAtom] = for {
     bytes <- arbitrary[Array[Byte]]
-  } yield SAtom(bytes)
+  } yield SAtom(ByteVector(bytes))
 
   lazy val genList: Gen[SList] = for {
     n <- Gen.choose(0,2)

@@ -32,7 +32,7 @@ object SExprWriters {
       token match {
         case TAtom(bytes) =>
           outputStream.write(s"${bytes.length}:".getBytes(US_ASCII))
-          outputStream.write(bytes)
+          bytes.copyToStream(outputStream)
         case TLeftParenthesis =>
           outputStream.write(LPAREN)
         case TRightParenthesis =>

@@ -1,5 +1,7 @@
 package csexp.tokenize
 
+import scodec.bits.ByteVector
+
 /**
  * Tokens
  */
@@ -20,9 +22,6 @@ object SToken {
   /**
    * Atom.
    */
-  case class TAtom(bytes: Array[Byte]) extends SToken {
-    override def equals(_other: Any): Boolean =
-      _other.isInstanceOf[TAtom] && (_other.asInstanceOf[TAtom].bytes.sameElements(bytes))
-  }
+  case class TAtom(bytes: ByteVector) extends SToken
 
 }

@@ -59,4 +59,5 @@ libraryDependencies ++= Seq(
   Dependencies.scalaCheck % "test",
   Dependencies.scalaTest % "test",
   Dependencies.scalaTestPlusScalaCheck % "test",
+  Dependencies.scodecBits,
 )

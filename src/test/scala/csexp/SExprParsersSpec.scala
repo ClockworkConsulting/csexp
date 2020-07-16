@@ -7,6 +7,8 @@ import csexp.ast.SExpr._
 import csexp.tokenize.SExprTokenizer
 import csexp.tokenize.SToken._
 import org.scalatest.flatspec.AnyFlatSpec
+import scodec.bits.ByteVector
+import csexp.impl.CompatSyntax._
 
 class SExprParsersSpec extends AnyFlatSpec {
 
@@ -20,6 +22,11 @@ class SExprParsersSpec extends AnyFlatSpec {
 
   // ---------------------------------------------------------------------
 
+  private[this] def fromUtf8(s: String): ByteVector =
+    ByteVector.encodeUtf8(s).getOrThrow
+
+  // ---------------------------------------------------------------------
+
   behavior of "SExprParsers.parseFromByteArray"
 
   it should "be able parse the Wikipedia example for canonical s-expressions" in {
@@ -28,11 +35,11 @@ class SExprParsersSpec extends AnyFlatSpec {
 
     // Verify
     assert(parsedSexpr === SList(
-      SAtom("this".getBytes(UTF_8)),
-      SAtom("Canonical S-expression".getBytes(UTF_8)),
-      SAtom("has".getBytes(UTF_8)),
-      SAtom("5".getBytes(UTF_8)),
-      SAtom("atoms".getBytes(UTF_8))))
+      SAtom(fromUtf8("this")),
+      SAtom(fromUtf8("Canonical S-expression")),
+      SAtom(fromUtf8("has")),
+      SAtom(fromUtf8("5")),
+      SAtom(fromUtf8("atoms"))))
   }
 
   // ---------------------------------------------------------------------
@@ -43,11 +50,11 @@ class SExprParsersSpec extends AnyFlatSpec {
     // Setup
     val expectedTokens = Seq(
       0 -> TLeftParenthesis,
-      3 -> TAtom("this".getBytes(UTF_8)),
-      10 -> TAtom("Canonical S-expression".getBytes(UTF_8)),
-      34 -> TAtom("has".getBytes(UTF_8)),
-      39 -> TAtom("5".getBytes(UTF_8)),
-      42 -> TAtom("atoms".getBytes(UTF_8)),
+      3 -> TAtom(fromUtf8("this")),
+      10 -> TAtom(fromUtf8("Canonical S-expression")),
+      34 -> TAtom(fromUtf8("has")),
+      39 -> TAtom(fromUtf8("5")),
+      42 -> TAtom(fromUtf8("atoms")),
       47 -> TRightParenthesis)
 
     // Exercise

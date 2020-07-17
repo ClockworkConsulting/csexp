@@ -15,4 +15,13 @@ protected[csexp] object CompatSyntax {
     }
   }
 
+  implicit class RichEitherMap[A, B](val underlying: Either[A, B]) extends AnyVal {
+    def mapRight[C](f: B => C): Either[A, C] = {
+      underlying match {
+        case Left(l) => Left(l)
+        case Right(r) =>Right(f(r))
+      }
+    }
+  }
+
 }

@@ -50,11 +50,11 @@ class SExprParsersSpec extends AnyFlatSpec {
     // Setup
     val expectedTokens = Seq(
       0 -> TLeftParenthesis,
-      3 -> TAtom(fromUtf8("this")),
-      10 -> TAtom(fromUtf8("Canonical S-expression")),
-      34 -> TAtom(fromUtf8("has")),
-      39 -> TAtom(fromUtf8("5")),
-      42 -> TAtom(fromUtf8("atoms")),
+      3 -> TAtom.encodeOrThrow("this", UTF_8),
+      10 -> TAtom.encodeOrThrow("Canonical S-expression", UTF_8),
+      34 -> TAtom.encodeOrThrow("has", UTF_8),
+      39 -> TAtom.encodeOrThrow("5", UTF_8),
+      42 -> TAtom.encodeOrThrow("atoms", UTF_8),
       47 -> TRightParenthesis)
 
     // Exercise

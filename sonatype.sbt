@@ -1,6 +1,6 @@
 sonatypeProfileName := "dk.cwconsult"
 
-pomExtra in ThisBuild := {
+ThisBuild / pomExtra := {
   <url>https://github.com/ClockworkConsulting/csexp</url>
   <licenses>
     <license>

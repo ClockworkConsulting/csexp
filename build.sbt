@@ -7,6 +7,11 @@ organization := "dk.cwconsult"
 name := "csexp"
 
 //
+// Auto-reload on build changes
+//
+Global / onChangedBuildSource := ReloadOnSourceChanges
+
+//
 // Compiler settings
 //
 
@@ -14,11 +19,11 @@ val scala_2_11 = "2.11.11"
 val scala_2_12 = "2.12.11"
 val scala_2_13 = "2.13.3"
 
-scalaVersion in ThisBuild := scala_2_13
+ThisBuild / scalaVersion := scala_2_13
 
-crossScalaVersions := Seq(scala_2_11, scala_2_12, scala_2_13)
+ThisBuild / crossScalaVersions := Seq(scala_2_11, scala_2_12, scala_2_13)
 
-scalacOptions in ThisBuild ++= Seq(
+ThisBuild / scalacOptions ++= Seq(
   "-Xlint",
    "-deprecation",
    "-unchecked",
@@ -46,10 +51,10 @@ publishTo := Some(
 // Test settings
 //
 
-testOptions in ThisBuild in Test +=  Tests.Argument(
+ThisBuild / Test / testOptions += Tests.Argument(
   TestFrameworks.ScalaTest,
   "-oD", // Console output
-  "-u", "%s" format ((target in Test).value / "test-reports")) // Output for Jenkins
+  "-u", "%s" format ((Test / target).value / "test-reports")) // Output for Jenkins
 
 //
 // Dependencies

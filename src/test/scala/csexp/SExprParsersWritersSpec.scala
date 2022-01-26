@@ -31,7 +31,7 @@ class SExprParsersWritersSpec extends AnyFlatSpec with Checkers {
 
   def genSExpr: Gen[SExpr] = oneOf(genAtom, genList)
 
-  implicit val arbitrarySExpr = Arbitrary(genSExpr)
+  implicit val arbitrarySExpr: Arbitrary[SExpr] = Arbitrary(genSExpr)
 
   // ---------------------------------------------------------------------
 
@@ -39,7 +39,7 @@ class SExprParsersWritersSpec extends AnyFlatSpec with Checkers {
 
   it should "be able to round-trip arbitrary S-expressions" in {
     // Exercise/Verify
-    check(Prop.forAll { sexpr: SExpr => {
+    check(Prop.forAll { (sexpr: SExpr) => {
       sexpr == SExprParsers.parseFromByteArray(SExprWriters.writeToByteArray(sexpr))
     }})
   }

@@ -17,10 +17,11 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val scala_2_12 = "2.12.15"
 val scala_2_13 = "2.13.8"
+val scala_3 = "3.1.0"
 
 ThisBuild / scalaVersion := scala_2_13
 
-ThisBuild / crossScalaVersions := Seq(scala_2_12, scala_2_13)
+ThisBuild / crossScalaVersions := Seq(scala_2_12, scala_2_13, scala_3)
 
 ThisBuild / scalacOptions ++= Seq(
   "-Xlint",

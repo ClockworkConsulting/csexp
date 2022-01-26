@@ -14,8 +14,11 @@ sealed abstract class StatefulTokenizer private(var stream: Vector[(Int, SToken)
     }
   }
 
+  def peekToken(): Option[(Int, SToken)] =
+    stream.headOption
+
   def nextToken(): (Int, SToken) = {
-    val h = stream.headOption match {
+    val h = peekToken() match {
       case Some(token) => token
       case None => throw error(-1, "Unexpected EOF")
     }

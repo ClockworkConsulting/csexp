@@ -12,6 +12,6 @@ object Dependencies {
     "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0"
 
   val scodecBits =
-    "org.scodec" %% "scodec-bits" % "1.1.17"
+    "org.scodec" %% "scodec-bits" % "1.1.29"
 
 }

@@ -17,11 +17,14 @@ sealed abstract class StatefulTokenizer private(var stream: Vector[(Int, SToken)
   def peekToken(): Option[(Int, SToken)] =
     stream.headOption
 
-  def nextToken(): (Int, SToken) = {
-    val h = peekToken() match {
+  def peekToken1(): (Int, SToken) =
+    peekToken() match {
       case Some(token) => token
       case None => throw error(-1, "Unexpected EOF")
     }
+
+  def nextToken(): (Int, SToken) = {
+    val h = peekToken1()
     // Consume
     stream = stream.tail
     // Return the previous head

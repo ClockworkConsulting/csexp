@@ -39,6 +39,15 @@ class SExprParsersSpec extends AnyFlatSpec {
       SAtom(fromUtf8("atoms"))))
   }
 
+  it should "parse a zero-sized csexpr" in {
+    // Exercise
+    val parsedSexpr = SExprParsers.parseFromByteArray(
+      "0:".getBytes(UTF_8))
+
+    // Verify
+    assert(parsedSexpr === SAtom(ByteVector.empty))
+  }
+
   // ---------------------------------------------------------------------
 
   behavior of "SExprParsers.tokenize"
@@ -56,6 +65,19 @@ class SExprParsersSpec extends AnyFlatSpec {
 
     // Exercise
     val tokenStream = SExprTokenizer.tokenize(new ByteArrayInputStream(wikipediaExampleBytes))
+
+    // Verify
+    assert(tokenStream === expectedTokens)
+  }
+
+  it should "return a correct stream for a zero-sized csexpr" in {
+    // Setup
+    val expectedTokens = Seq(
+      2 -> TAtom.encodeOrThrow("", UTF_8),
+    )
+
+    // Exercise
+    val tokenStream = SExprTokenizer.tokenize(new ByteArrayInputStream("0:".getBytes(UTF_8)))
 
     // Verify
     assert(tokenStream === expectedTokens)

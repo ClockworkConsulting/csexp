@@ -4,89 +4,109 @@ import java.io.InputStream
 import csexp.impl.CompatSyntax._
 import csexp.tokenize.SToken._
 
-sealed abstract class StatefulTokenizer private(var stream: Vector[(Int, SToken)]) {
+trait StatefulTokenizer {
 
-  def error(position: Int, message: String): Nothing = {
-    if (position >= 0) {
-      throw new IllegalArgumentException(s"$message at position $position.")
-    } else {
-      throw new IllegalArgumentException(message)
-    }
-  }
+  def error(position: Int, message: String): Nothing
 
-  def peekToken(): Option[(Int, SToken)] =
-    stream.headOption
+  def peekToken(): Option[(Int, SToken)]
 
-  def peekToken1(): (Int, SToken) =
-    peekToken() match {
-      case Some(token) => token
-      case None => throw error(-1, "Unexpected EOF")
-    }
+  def peekToken1(): (Int, SToken)
 
-  def nextToken(): (Int, SToken) = {
-    val h = peekToken1()
-    // Consume
-    stream = stream.tail
-    // Return the previous head
-    h
-  }
+  def nextToken(): (Int, SToken)
 
-  def consumeLParen(): Unit = {
-    nextToken() match {
-      case (_  , TLeftParenthesis) => ()
-      case (pos, token)            => throw error(pos, s"Expected '(', got $token")
-    }
-  }
+  def consumeLParen(): Unit
 
-  def consumeRParen(): Unit = {
-    nextToken() match {
-      case (_  , TRightParenthesis) => ()
-      case (pos, token)             => throw error(pos, s"Expected ')', got $token")
-    }
-  }
+  def consumeRParen(): Unit
 
-  def consumeTag(): (Int, String) = {
-    nextToken() match {
-      case (pos, TAtom(tag)) => (pos, tag.decodeUtf8.getOrThrow)
-      case (pos, token)      => throw error(pos, s"Expected tag, got $token")
-    }
-  }
+  def consumeTag(): (Int, String)
 
-  private[this] def skipBalanced(): Unit = {
-    var done = false
-    while (!done) {
-      nextToken() match {
-        case (_, TLeftParenthesis) =>
-          skipBalanced()
-        case (_, TRightParenthesis) =>
-          done = true
-        case (_, TAtom(_)) =>
-          // ignore
-      }
-    }
-  }
-
-  def skip1(): Unit = {
-    nextToken() match {
-      case (_, TAtom(_)) =>
-        // Skip this single expression.
-      case (pos, TRightParenthesis) =>
-        // Immediate close-paren means that there was no expression to skip.
-        throw error(pos, s"There was nothing to skip")
-      case (pos, TLeftParenthesis) =>
-        skipBalanced()
-    }
-  }
+  def skip1(): Unit
 
 }
 
 object StatefulTokenizer {
 
+  private sealed class StatefulTokenizerImpl(var stream: Vector[(Int, SToken)]) extends StatefulTokenizer {
+
+    def error(position: Int, message: String): Nothing = {
+      if (position >= 0) {
+        throw new IllegalArgumentException(s"$message at position $position.")
+      } else {
+        throw new IllegalArgumentException(message)
+      }
+    }
+
+    def peekToken(): Option[(Int, SToken)] =
+      stream.headOption
+
+    def peekToken1(): (Int, SToken) =
+      peekToken() match {
+        case Some(token) => token
+        case None => throw error(-1, "Unexpected EOF")
+      }
+
+    def nextToken(): (Int, SToken) = {
+      val h = peekToken1()
+      // Consume
+      stream = stream.tail
+      // Return the previous head
+      h
+    }
+
+    def consumeLParen(): Unit = {
+      nextToken() match {
+        case (_  , TLeftParenthesis) => ()
+        case (pos, token)            => throw error(pos, s"Expected '(', got $token")
+      }
+    }
+
+    def consumeRParen(): Unit = {
+      nextToken() match {
+        case (_  , TRightParenthesis) => ()
+        case (pos, token)             => throw error(pos, s"Expected ')', got $token")
+      }
+    }
+
+    def consumeTag(): (Int, String) = {
+      nextToken() match {
+        case (pos, TAtom(tag)) => (pos, tag.decodeUtf8.getOrThrow)
+        case (pos, token)      => throw error(pos, s"Expected tag, got $token")
+      }
+    }
+
+    private[this] def skipBalanced(): Unit = {
+      var done = false
+      while (!done) {
+        nextToken() match {
+          case (_, TLeftParenthesis) =>
+            skipBalanced()
+          case (_, TRightParenthesis) =>
+            done = true
+          case (_, TAtom(_)) =>
+            // ignore
+        }
+      }
+    }
+
+    def skip1(): Unit = {
+      nextToken() match {
+        case (_, TAtom(_)) =>
+          // Skip this single expression.
+        case (pos, TRightParenthesis) =>
+          // Immediate close-paren means that there was no expression to skip.
+          throw error(pos, s"There was nothing to skip")
+        case (_, TLeftParenthesis) =>
+          skipBalanced()
+      }
+    }
+
+  }
+
   /**
     * Create a [[StatefulTokenizer]] from an immediable token stream.
     */
   def apply(tokens: Vector[(Int, SToken)]): StatefulTokenizer =
-    new StatefulTokenizer(tokens) { }
+    new StatefulTokenizerImpl(tokens)
 
   /**
     * Create a [[StatefulTokenizer]] from an input stream.

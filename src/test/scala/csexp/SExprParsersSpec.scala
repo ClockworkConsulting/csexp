@@ -1,7 +1,7 @@
 package csexp
 
 import java.io.ByteArrayInputStream
-import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets.UTF_8
 
 import csexp.ast.SExpr._
 import csexp.tokenize.SExprTokenizer
@@ -11,9 +11,6 @@ import scodec.bits.ByteVector
 import csexp.impl.CompatSyntax._
 
 class SExprParsersSpec extends AnyFlatSpec {
-
-  // Shorthand for convenience
-  private[this] val UTF_8 = Charset.forName("UTF-8")
 
   // ---------------------------------------------------------------------
 

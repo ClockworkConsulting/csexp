@@ -15,9 +15,9 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 // Compiler settings
 //
 
-val scala_2_12 = "2.12.15"
-val scala_2_13 = "2.13.8"
-val scala_3 = "3.1.0"
+val scala_2_12 = "2.12.17"
+val scala_2_13 = "2.13.10"
+val scala_3 = "3.3.0"
 
 ThisBuild / scalaVersion := scala_2_13
 
